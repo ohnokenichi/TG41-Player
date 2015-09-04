@@ -14,7 +14,8 @@ var playlistIds = [];
 var shuffledPlaylistIds = [];
 
 var nowPlaying = 0;
-var nextPlaybackMode = 'play';
+var playCount = 0;
+var playbackState = 'pause';
 var repeatMode = 'all';
 var shuffleMode = 'off';
 var volume = 1;
@@ -25,8 +26,14 @@ var limitT = 200;
 
 $(function() {
 
-  $('.volume_controller').hide();
-  $('.icon_music').hide();
+  $('.icon_playlist').hide();
+  $('.icon_trash').hide();
+  $('#controller').hide();
+  var UA = navigator.userAgent;
+  if (UA.indexOf('iPhone')  != -1 || UA.indexOf('iPod') != -1 || UA.indexOf('iPad') != -1 || UA.indexOf('Android') != -1) {
+    $('.volume_controller').hide();
+  }
+
   $('#keyword').val('');
 
   $('#volume_icon').click(function() {
@@ -133,7 +140,6 @@ function loadTrack(result) {
     resultId++;
   }
   $('#result').append('<div class="add_tracks"><a href="javascript:void(0);" onclick="addPlaylist('+from+', '+trackCount+');">ADD ALL</a></div>');
-  $('#result').append('<hr />');
 }
 
 function loadArtwork(url) {
@@ -171,11 +177,11 @@ function addTrack(resultId) {
   $('#'+resultId+'_btn').attr('class', 'btn btn-default add_btn_selected');
   $('#'+resultId+'_icon').attr('class', 'glyphicon glyphicon-plus add_icon_selected');
 
-  if(playlistIds.length == 0) {
-    $('#controller').append('<a href="javascript:void(0);" onclick="prevTrack();"><button type="button" class="btn btn-default" aria-label="Left Align"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span></button></a> <a href="javascript:void(0);" onclick="changePlaybackMode();"><span class="nextPlaybackMode"><button type="button" class="btn btn-default" aria-label="Left Align"><span id="playbackButton" class="glyphicon glyphicon-'+nextPlaybackMode+'" aria-hidden="true"></span></button></span></a> <a href="javascript:void(0);" onclick=nextTrack("force");><button type="button" class="btn btn-default" aria-label="Left Align"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span></button></a> <span class="separate_controller"></span> <a href="javascript:void(0);" onclick="changeRepeatMode();"><button type="button" id="repeat_btn" class="btn btn-default" aria-label="Left Align" title="Repeat all"><span id="repeat" class="glyphicon glyphicon-retweet repeat_icon_on" aria-hidden="true"></span></button></a> <a href="javascript:void(0);" onclick="changeShuffleMode();"><button type="button" id="shuffle_btn" class="btn btn-default" aria-label="Left Align" title="Shuffle off"><span id="shuffle" class="glyphicon glyphicon-random shuffle_icon_off" aria-hidden="true"></span></button></a> ');
-    $('#playlist').append('<div class="icon_trash"><a href="javascript:void(0);" onclick="clearPlaylist();"><span class="glyphicon glyphicon-trash" aria-hidden="true" title="Clear the Playlist"></span></a></div>');
-    $('#playlist').after('<div class="separate_playlist"></div>');
-    $('.icon_music').show();
+  $('.icon_playlist').show();
+  $('.icon_trash').show();
+  $('#controller').show();
+  if(playlistIds.length == 0){
+    $('#playlist').append('<div class="playlist_index"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Playlist<hr class="playlist_hr" /></div>');
   }
   $('#playlist').append('<div id='+playlistId+' class="added_track"><a href="javascript:void(0);" onclick="jumpTrack('+playlistId+');" class="copied_'+playlistId+'"></a><div class="delete_track_btn"><a href="javascript:void(0);" onclick="deleteTrack('+playlistId+');"><button type="button" class="btn btn-default" title="Delete"><span aria-hidden="true" class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></a></div></div>');
 
@@ -187,7 +193,7 @@ function addTrack(resultId) {
   shuffledPlaylistIds.push(playlistId);
   playlistId++;
 
-  $('.icon_music').fadeOut(200,function(){$(this).fadeIn(200,function(){$(this).fadeOut(200,function(){$(this).fadeIn(200,function(){$(this).fadeOut(200,function(){$(this).fadeIn(200,function(){$(this).fadeOut(200,function(){$(this).fadeIn(200,function(){$(this).fadeOut(200,function(){$(this).fadeIn(200)})})})})})})})})});
+  $('.icon_playlist').fadeOut(200,function(){$(this).fadeIn(200,function(){$(this).fadeOut(200,function(){$(this).fadeIn(200,function(){$(this).fadeOut(200,function(){$(this).fadeIn(200,function(){$(this).fadeOut(200,function(){$(this).fadeIn(200,function(){$(this).fadeOut(200,function(){$(this).fadeIn(200)})})})})})})})})});
 
   return false;
 }
@@ -213,20 +219,26 @@ function deleteTrack(playlistId) {
   $('#playlist').find('#'+playlistId).remove();
 
   if(playlistIds.length == 0) {
-    $('#controller').empty();
-    $('#playlist').empty();
-    $('.playlist_area').find($('.separate_playlist')).remove();
-    $('.icon_music').hide();
+    $('.icon_playlist').hide();
+    $('.icon_trash').hide();
+    $('#playlist_area').find($('.playlist_index')).remove();
+    if(playCount == 0) {
+      $('#controller').hide();
+    }
   }
+
+
   return false;
 }
 
 function clearPlaylist() {
-  if(window.confirm('Clear the Playlist')) {
-    $('#controller').empty();
+  if(window.confirm('Clear Playlist?')) {
     $('#playlist').empty();
-    $('.playlist_area').find($('.separate_playlist')).remove();
-    $('.icon_music').hide();
+    $('.icon_playlist').hide();
+    $('.icon_trash').hide();
+    if(playCount == 0) {
+      $('#controller').hide();
+    }
     nowPlaying = 0;
     playlistIds.length = 0;
   }
@@ -234,22 +246,22 @@ function clearPlaylist() {
 }
 
 widget.bind(SC.Widget.Events.PLAY, function() {
-  if(nextPlaybackMode == 'play') {
+  if(playbackState == 'pause') {
     $('#playbackButton').attr('class', 'glyphicon glyphicon-pause');
-    nextPlaybackMode = 'pause';
+    playbackState = 'play';
   }
 });
 
 widget.bind(SC.Widget.Events.PAUSE, function() {
-  if(nextPlaybackMode == 'pause') {
+  if(playbackState == 'play') {
     $('#playbackButton').attr('class', 'glyphicon glyphicon-play');
-    nextPlaybackMode = 'play';
+    playbackState = 'pause';
   }
 });
 
 widget.bind(SC.Widget.Events.FINISH, function() {
   $('#playbackButton').attr('class', 'glyphicon glyphicon-play');
-  nextPlaybackMode = 'play';
+  playbackState = 'pause';
   if(playlistIds.length > 0) {
     if(repeatMode == 'song') {
       playTrack(nowPlaying);
@@ -264,8 +276,8 @@ widget.bind(SC.Widget.Events.PLAY, function() {
   setVolume(volume);
 });
 
-function changePlaybackMode() {
-  if(nextPlaybackMode == 'play') {
+function changePlaybackState() {
+  if(playbackState == 'pause') {
     if(playlistIds.length > 0 && nowPlaying == 0) {
       nowPlaying = 1;
       playTrack(nowPlaying);
@@ -274,12 +286,12 @@ function changePlaybackMode() {
       widget.play();
     }
     $('#playbackButton').attr('class', 'glyphicon glyphicon-pause');
-    nextPlaybackMode = 'pause';
+    playbackState = 'play';
   }
   else {
     widget.pause();
     $('#playbackButton').attr('class', 'glyphicon glyphicon-play');
-    nextPlaybackMode = 'play';
+    playbackState = 'pause';
   }
   return false;
 }
@@ -296,7 +308,7 @@ function nextTrack(param) {
     }
     else {
       $('#playbackButton').attr('class', 'glyphicon glyphicon-play');
-      nextPlaybackMode = 'play';
+      playbackState = 'pause';
     }
   }
   return false;
@@ -378,18 +390,15 @@ function playTrack(nowPlaying) {
 
   widget.load('https%3A//api.soundcloud.com/tracks/'+targetResultTrackId, {auto_play:true});
 
-  $('.cover').hide();
-
-  var UA = navigator.userAgent;
-  if (UA.indexOf('iPhone')  == -1 && UA.indexOf('iPod') == -1 && UA.indexOf('iPad') == -1 && UA.indexOf('Android') == -1) {
-    $('.volume_controller').show();
-  }
+  $('#cover').hide();
 
   $('#playbackButton').attr('class', 'glyphicon glyphicon-pause');
-  nextPlaybackMode = 'pause';
+  playbackState = 'play';
 
   $('.added_track').attr('class', 'added_track'); //background reset
   $('#'+targetPlaylistId).attr('class', 'added_track playing');
+
+  playCount++;
 }
 
 function setVolume(num) {
@@ -434,7 +443,7 @@ function jumpTrack(id) {
 }
 
 function moveTo(t) {
-  var target = $('.'+t).offset().top;
+  var target = $('#'+t).offset().top;
   $('html, body').animate({ scrollTop: target }, 'slow');
   return false;
 }

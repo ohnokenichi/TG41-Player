@@ -25,23 +25,20 @@
 </head>
 <body>
 
-<div class="header">
+<div id="header">
   <h1><span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span> tg41player</h1>
 
-  <div class="volume_controller">
-    <span id="volume_icon" class="glyphicon glyphicon-volume-up" aria-hidden="true"></span>
-    <a href="javascript:void(0);" onclick="setVolume('0.1');" id="v1">||</a><a href="javascript:void(0);" onclick="setVolume('0.2');" id="v2">||</a><a href="javascript:void(0);" onclick="setVolume('0.3');" id="v3">||</a><a href="javascript:void(0);" onclick="setVolume('0.4');" id="v4">||</a><a href="javascript:void(0);" onclick="setVolume('0.5');" id="v5">||</a><a href="javascript:void(0);" onclick="setVolume('0.6');" id="v6">||</a><a href="javascript:void(0);" onclick="setVolume('0.7');" id="v7">||</a><a href="javascript:void(0);" onclick="setVolume('0.8');" id="v8">||</a><a href="javascript:void(0);" onclick="setVolume('0.9');" id="v9">||</a><a href="javascript:void(0);" onclick="setVolume('1');" id="v10">||</a>
-  </div>
 
-  <div class="icon_music"><a href="javascript:void(0);" onclick="moveTo('playlist_area');"><span class="glyphicon glyphicon-music" aria-hidden="true"></span> Playlist</a></div>
+
+  <div class="icon_playlist"><a href="javascript:void(0);" onclick="moveTo('playlist_area');"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Playlist</a></div>
 
   <div class="icon_search"><a href="javascript:void(0);" onclick="moveTo('search_area');"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search</a></div>
 
-  <div class="cover">
+  <div id="cover">
     <ul>
       <li><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search your favorite Tracks</li>
       <li><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add to Playlist</li>
-      <li><span class="glyphicon glyphicon-music" aria-hidden="true"></span> Play</li>
+      <li><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Play</li>
     </ul>
     <div class="note">iPhone / iPad / iPod touch user, please "Add to Home Screen". Otherwise it doesn't work.</div>
   </div>
@@ -50,9 +47,9 @@
 
 </div><!-- /header -->
 
-<div class="container">
+<div id="container">
 
-  <div class="search_area">
+  <div id="search_area">
     <form id="search_form" action="">
     <div class="input-group">
       <input type="text" id="keyword" class="form-control" aria-label="Text input with segmented button dropdown" placeholder="Enter Keyword">
@@ -69,14 +66,40 @@
     <div id="result"></div>
   </div>
 
-  <div class="playlist_area">
-    <div id="controller"></div>
+  <div id="playlist_area">
+
     <div id="playlist"></div>
+
   </div>
 
 </div><!-- /container -->
 
-<div class="footer">
+    <div id="controller">
+
+      <a href="javascript:void(0);" onclick="prevTrack();"><button type="button" class="btn btn-default" aria-label="Left Align"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span></button></a>
+
+      <a href="javascript:void(0);" onclick="changePlaybackState();"><span class="nextPlaybackMode"><button type="button" class="btn btn-default" aria-label="Left Align"><span id="playbackButton" class="glyphicon glyphicon-play" aria-hidden="true"></span></button></span></a>
+
+      <a href="javascript:void(0);" onclick=nextTrack("force");><button type="button" class="btn btn-default" aria-label="Left Align"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span></button></a> 
+
+      <span class="separate_controller"></span>
+
+      <a href="javascript:void(0);" onclick="changeRepeatMode();"><button type="button" id="repeat_btn" class="btn btn-default" aria-label="Left Align" title="Repeat all"><span id="repeat" class="glyphicon glyphicon-retweet repeat_icon_on" aria-hidden="true"></span></button></a>
+
+      <a href="javascript:void(0);" onclick="changeShuffleMode();"><button type="button" id="shuffle_btn" class="btn btn-default" aria-label="Left Align" title="Shuffle off"><span id="shuffle" class="glyphicon glyphicon-random shuffle_icon_off" aria-hidden="true"></span></button></a>
+
+      <div class="volume_controller">
+        <span id="volume_icon" class="glyphicon glyphicon-volume-up" aria-hidden="true"></span>
+        <a href="javascript:void(0);" onclick="setVolume('0.1');" id="v1">||</a><a href="javascript:void(0);" onclick="setVolume('0.2');" id="v2">||</a><a href="javascript:void(0);" onclick="setVolume('0.3');" id="v3">||</a><a href="javascript:void(0);" onclick="setVolume('0.4');" id="v4">||</a><a href="javascript:void(0);" onclick="setVolume('0.5');" id="v5">||</a><a href="javascript:void(0);" onclick="setVolume('0.6');" id="v6">||</a><a href="javascript:void(0);" onclick="setVolume('0.7');" id="v7">||</a><a href="javascript:void(0);" onclick="setVolume('0.8');" id="v8">||</a><a href="javascript:void(0);" onclick="setVolume('0.9');" id="v9">||</a><a href="javascript:void(0);" onclick="setVolume('1');" id="v10">||</a>
+      </div>
+
+      <div class="icon_trash">
+        <a href="javascript:void(0);" onclick="clearPlaylist();"><span class="glyphicon glyphicon-trash" aria-hidden="true" title="Clear the Playlist"></span></a>
+      </div>
+
+    </div>
+
+<div id="footer">
   <span class="produced">Produced by <a href="http://twitter.com/ohnokenichi">Ohno Kenichi</a> ,</span>
   <span class="powered">Powered by <a href="http://soundcloud.com">SoundCloud</a> API</span>  
 </div><!-- footer -->

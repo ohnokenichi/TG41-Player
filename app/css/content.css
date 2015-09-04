@@ -14,19 +14,19 @@ body {
   background-color: #ffffff;
 }
 
-.header {
+#header {
   position: fixed;
   width: 100%;
   z-index: 999;
 }
 
-.container {
+#container {
   padding: 200px 15px 0 15px;
   width: 100%;
   overflow: hidden;
 }
 
-.footer {
+#footer {
   position: absolute;
   bottom: 0;
   font-size: 12px;
@@ -60,29 +60,7 @@ form {
   margin: 0;
 }
 
-.volume_controller {
-  float: right;
-  margin: -24px 170px 0 0;
-  color: #337ab7;
-}
-
-.volume_controller span {
-  cursor: pointer;
-}
-
-.volume_controller a {
-  text-decoration: none;
-}
-
-.volume_in {
-  color: #337ab7 !important;
-}
-
-.volume_out {
-  color: #f5f5f5 !important;
-}
-
-.icon_music {
+.icon_playlist {
   float: right;
   margin: -24px 93px 0 0;
 }
@@ -92,7 +70,7 @@ form {
   margin: -24px 15px 0 0;
 }
 
-.cover {
+#cover {
   position: absolute;
   width: 100%;
   height: 180px;
@@ -102,11 +80,11 @@ form {
   font-size: 12px;
 }
 
-.cover ul {
+#cover ul {
   margin: 20px 15px 0 0;
 }
 
-.cover li {
+#cover li {
   list-style-type: decimal;
   line-height: 180%;
 }
@@ -123,26 +101,39 @@ form {
   left: -1em;
 }
 
-.search_area {
-  margin-top: -222px;
-  padding-top: 222px;
+#search_area {
+  margin-top: -210px;
+  padding-top: 210px;
 }
 
 #search_form {
   margin: 50px 0 20px 0;
 }
 
-.playlist_area {
-  margin-top: -222px;
-  padding-top: 222px;
+#playlist_area {
+  margin-top: -210px;
+  padding-top: 210px;
+  margin-bottom: 80px;
 }
 
-.separate_playlist {
-  margin-bottom: 60px;
+.playlist_index {
+  margin-top: 20px;
+}
+
+.playlist_hr {
+  margin-top: 5px;
+  border-top: 3px solid #d0cfb7;
+  border-bottom: 0;
 }
 
 #controller {
-  margin: 20px 0;
+  position: fixed;
+  width: 100%;
+  z-index: 999;
+  bottom: 0px;
+  background-color: #f5f5f5;
+  border-top: 1px solid #cccccc;
+  padding: 6px 15px;
 }
 
 .separate_controller {
@@ -171,6 +162,39 @@ form {
 
 .shuffle_icon_off {
   color: #999999;
+}
+
+.volume_controller {
+  position: fixed;
+  left: 260px;
+  bottom: 16px;
+  color: #333333;
+}
+
+.volume_controller span {
+  cursor: pointer;
+}
+
+.volume_controller a {
+  text-decoration: none;
+}
+
+.volume_in {
+  color: #337ab7 !important;
+}
+
+.volume_out {
+  color: #cccccc !important;
+}
+
+.glyphicon-remove {
+  color: #d0cfb7;
+}
+
+.icon_trash {
+  position: fixed;
+  right: 33px;
+  bottom: 16px;
 }
 
 .playlist_image {
@@ -284,15 +308,6 @@ form {
   width: 44px;
   float: right;
   margin-top: 5px;
-}
-
-.glyphicon-remove {
-  color: #d0cfb7;
-}
-
-.icon_trash {
-  text-align: right;
-  margin: -45px 18px 30px 0;
 }
 
 .produced {
