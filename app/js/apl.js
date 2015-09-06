@@ -27,7 +27,6 @@ var limitT = 200;
 $(function() {
 
   $('.icon_playlist').hide();
-  $('.icon_trash').hide();
   $('#controller').hide();
   var UA = navigator.userAgent;
   if (UA.indexOf('iPhone')  != -1 || UA.indexOf('iPod') != -1 || UA.indexOf('iPad') != -1 || UA.indexOf('Android') != -1) {
@@ -90,6 +89,7 @@ $(function() {
     else {
       $('#result').text('');
     }
+    moveTo('container', 'fast');
     return false;
   })
 
@@ -124,7 +124,6 @@ function loadPlaylist(result) {
 
 function loadTrack(result) {
   var trackCount = result.length;
-  var from = resultId;
 
   $('#result').append('<div class="add_tracks"><a href="javascript:void(0);" onclick="addPlaylist('+resultId+', '+trackCount+');">ADD ALL</a></div>');
 
@@ -135,11 +134,12 @@ function loadTrack(result) {
     var trackTitle = track.title;
     var trackPlaybackCount = String(track.playback_count).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
     var trackDuration = convertTime(track.duration);
+
     $('#result').append('<div class="track"><a href="javascript:void(0);" onclick="addAndPlay('+resultId+');"><div class='+resultId+'><div class="track_image">'+trackArtwork+'</div><div class="track_title">'+trackTitle+'<br /><span class="play_count"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> '+trackPlaybackCount+'<span class="play_time">[ '+trackDuration+' ]<span></div></div></a><div class="add_track_btn"><a href="javascript:void(0);" onclick="addTrack('+resultId+');"><button type="button" id='+resultId+'_btn class="btn btn-default add_btn" title="Add"><span id='+resultId+'_icon class="glyphicon glyphicon-plus add_icon" aria-hidden="true"></span></button></a></div></div>');
     resultTrackIds.push(trackId);
     resultId++;
   }
-  $('#result').append('<div class="add_tracks"><a href="javascript:void(0);" onclick="addPlaylist('+from+', '+trackCount+');">ADD ALL</a></div>');
+  $('#result').append('<hr />');
 }
 
 function loadArtwork(url) {
@@ -178,10 +178,9 @@ function addTrack(resultId) {
   $('#'+resultId+'_icon').attr('class', 'glyphicon glyphicon-plus add_icon_selected');
 
   $('.icon_playlist').show();
-  $('.icon_trash').show();
   $('#controller').show();
   if(playlistIds.length == 0){
-    $('#playlist').append('<div class="playlist_index"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Playlist<hr class="playlist_hr" /></div>');
+    $('#playlist').append('<h2 class="playlist_index"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Playlist</h2><div class="clear_tracks"><a href="javascript:void(0);" onclick="clearPlaylist();">CLEAR ALL</a></div>');
   }
   $('#playlist').append('<div id='+playlistId+' class="added_track"><a href="javascript:void(0);" onclick="jumpTrack('+playlistId+');" class="copied_'+playlistId+'"></a><div class="delete_track_btn"><a href="javascript:void(0);" onclick="deleteTrack('+playlistId+');"><button type="button" class="btn btn-default" title="Delete"><span aria-hidden="true" class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></a></div></div>');
 
@@ -190,7 +189,7 @@ function addTrack(resultId) {
 
   addedResultIds.push(resultId);
   playlistIds.push(playlistId);
-  shuffledPlaylistIds.push(playlistId);
+  shuffledPlaylistIds = shuffle(playlistIds);
   playlistId++;
 
   $('.icon_playlist').fadeOut(200,function(){$(this).fadeIn(200,function(){$(this).fadeOut(200,function(){$(this).fadeIn(200,function(){$(this).fadeOut(200,function(){$(this).fadeIn(200,function(){$(this).fadeOut(200,function(){$(this).fadeIn(200,function(){$(this).fadeOut(200,function(){$(this).fadeIn(200)})})})})})})})})});
@@ -208,10 +207,7 @@ function addPlaylist(from, count) {
 function deleteTrack(playlistId) {
   var deleteNum = playlistIds.indexOf(playlistId);
   playlistIds.splice(deleteNum, 1);
-
-  if(shuffleMode == 'on') {
-    shuffledPlaylistIds = shuffle(playlistIds);
-  }
+  shuffledPlaylistIds = shuffle(playlistIds);
   if(deleteNum < nowPlaying) {
     nowPlaying--;
   }
@@ -220,14 +216,12 @@ function deleteTrack(playlistId) {
 
   if(playlistIds.length == 0) {
     $('.icon_playlist').hide();
-    $('.icon_trash').hide();
     $('#playlist_area').find($('.playlist_index')).remove();
+    $('#playlist_area').find($('.clear_tracks')).remove();
     if(playCount == 0) {
       $('#controller').hide();
     }
   }
-
-
   return false;
 }
 
@@ -235,7 +229,6 @@ function clearPlaylist() {
   if(window.confirm('Clear Playlist?')) {
     $('#playlist').empty();
     $('.icon_playlist').hide();
-    $('.icon_trash').hide();
     if(playCount == 0) {
       $('#controller').hide();
     }
@@ -415,12 +408,9 @@ function setVolume(num) {
   widget.setVolume(num);
   volume = num;
 
-  for(var i=1; i<=10; i++) {
-    $('#v'+i).attr('class', 'volume_in');
-  }
   var target = num * 10 + 1;
-  for(var j=target; j<=10; j++) {
-    $('#v'+j).attr('class', 'volume_out');
+  for(var i=target; i<=10; i++) {
+    $('#v'+i).attr('class', 'volume_out');
   }
 }
 
@@ -442,9 +432,9 @@ function jumpTrack(id) {
   return false;
 }
 
-function moveTo(t) {
-  var target = $('#'+t).offset().top;
-  $('html, body').animate({ scrollTop: target }, 'slow');
+function moveTo(id, speed) {
+  var target = $('#'+id).offset().top;
+  $('html, body').animate({ scrollTop: target }, speed);
   return false;
 }
 
