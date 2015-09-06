@@ -408,9 +408,13 @@ function setVolume(num) {
   widget.setVolume(num);
   volume = num;
 
+  for(var i=1; i<=10; i++) {
+    $('#v'+i).attr('class', 'volume_in');
+  }
+
   var target = num * 10 + 1;
-  for(var i=target; i<=10; i++) {
-    $('#v'+i).attr('class', 'volume_out');
+  for(var j=target; j<=10; j++) {
+    $('#v'+j).attr('class', 'volume_out');
   }
 }
 
