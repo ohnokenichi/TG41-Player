@@ -12,6 +12,7 @@
 <link rel="icon" href="./img/icon_16.png" type="image/x-icon" />
 <link rel="shortcut icon" href="./img/icon_16.png" type="image/x-icon" />
 <link rel="apple-touch-icon-precomposed" href="./img/icon_144.png" />
+
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -22,17 +23,17 @@
   ga('send', 'pageview');
 
 </script>
+
 </head>
 <body>
 
 <div id="header">
   <h1><span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span> tg41player</h1>
 
-
-      <div class="volume_controller">
-        <span id="volume_icon" class="glyphicon glyphicon-volume-up" aria-hidden="true"></span>
-        <a href="javascript:void(0);" onclick="setVolume('0.1');" id="v1">||</a><a href="javascript:void(0);" onclick="setVolume('0.2');" id="v2">||</a><a href="javascript:void(0);" onclick="setVolume('0.3');" id="v3">||</a><a href="javascript:void(0);" onclick="setVolume('0.4');" id="v4">||</a><a href="javascript:void(0);" onclick="setVolume('0.5');" id="v5">||</a><a href="javascript:void(0);" onclick="setVolume('0.6');" id="v6">||</a><a href="javascript:void(0);" onclick="setVolume('0.7');" id="v7">||</a><a href="javascript:void(0);" onclick="setVolume('0.8');" id="v8">||</a><a href="javascript:void(0);" onclick="setVolume('0.9');" id="v9">||</a><a href="javascript:void(0);" onclick="setVolume('1');" id="v10">||</a>
-      </div>
+  <div class="volume_controller">
+    <span id="volume_icon" class="glyphicon glyphicon-volume-up" aria-hidden="true"></span>
+    <a href="javascript:void(0);" onclick="setVolume('0.1');" id="v1">||</a><a href="javascript:void(0);" onclick="setVolume('0.2');" id="v2">||</a><a href="javascript:void(0);" onclick="setVolume('0.3');" id="v3">||</a><a href="javascript:void(0);" onclick="setVolume('0.4');" id="v4">||</a><a href="javascript:void(0);" onclick="setVolume('0.5');" id="v5">||</a><a href="javascript:void(0);" onclick="setVolume('0.6');" id="v6">||</a><a href="javascript:void(0);" onclick="setVolume('0.7');" id="v7">||</a><a href="javascript:void(0);" onclick="setVolume('0.8');" id="v8">||</a><a href="javascript:void(0);" onclick="setVolume('0.9');" id="v9">||</a><a href="javascript:void(0);" onclick="setVolume('1');" id="v10">||</a>
+  </div>
 
   <div id="cover">
     <ul>
@@ -45,19 +46,19 @@
 
   <iframe width="100%" height="180" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url="></iframe>
 
-    <form id="search_form" action="">
-    <div class="input-group">
-      <input type="text" id="keyword" class="form-control" aria-label="Text input with segmented button dropdown" placeholder="Enter Keyword">
-      <div class="input-group-btn">
-        <button type="submit" id="dropdown_menu" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search Track</button>
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
-        <ul class="dropdown-menu dropdown-menu-right" visibleTag="#visibleValue">
-          <li><a href="javascript:void(0)" onclick="changeSearchMode('track');"><span class="glyphicon glyphicon-search" aria-hidden="true" value="track"></span> Search Track</a></li>
-          <li><a href="javascript:void(0)" onclick="changeSearchMode('playlist');"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search Playlist</a></li>
-        </ul>
-      </div>
+  <form id="search_form" action="">
+  <div class="input-group">
+    <input type="text" id="keyword" class="form-control" aria-label="Text input with segmented button dropdown" placeholder="Enter Keyword">
+    <div class="input-group-btn">
+      <button type="submit" id="dropdown_menu" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search Track</button>
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+      <ul class="dropdown-menu dropdown-menu-right" visibleTag="#visibleValue">
+        <li><a href="javascript:void(0)" onclick="changeSearchMode('track');"><span class="glyphicon glyphicon-search" aria-hidden="true" value="track"></span> Search Track</a></li>
+        <li><a href="javascript:void(0)" onclick="changeSearchMode('playlist');"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search Playlist</a></li>
+      </ul>
     </div>
-    </form>
+  </div>
+  </form>
 
 </div><!-- /header -->
 
@@ -76,24 +77,24 @@
 
 </div><!-- /container -->
 
-    <div id="controller">
+  <div id="controller">
 
-      <a href="javascript:void(0);" onclick="prevTrack();"><button type="button" class="btn btn-default" aria-label="Left Align"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span></button></a>
+    <a href="javascript:void(0);" onclick="prevTrack();"><button type="button" class="btn btn-default" aria-label="Left Align"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span></button></a>
 
-      <a href="javascript:void(0);" onclick="changePlaybackState();"><span class="nextPlaybackMode"><button type="button" class="btn btn-default" aria-label="Left Align"><span id="playbackButton" class="glyphicon glyphicon-play" aria-hidden="true"></span></button></span></a>
+    <a href="javascript:void(0);" onclick="changePlaybackState();"><span class="nextPlaybackMode"><button type="button" class="btn btn-default" aria-label="Left Align"><span id="playbackButton" class="glyphicon glyphicon-play" aria-hidden="true"></span></button></span></a>
 
-      <a href="javascript:void(0);" onclick=nextTrack("force");><button type="button" class="btn btn-default" aria-label="Left Align"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span></button></a> 
+    <a href="javascript:void(0);" onclick=nextTrack("force");><button type="button" class="btn btn-default" aria-label="Left Align"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span></button></a> 
 
-      <span class="separate_controller"></span>
+    <span class="separate_controller"></span>
 
-      <a href="javascript:void(0);" onclick="changeRepeatMode();"><button type="button" id="repeat_btn" class="btn btn-default" aria-label="Left Align" title="Repeat all"><span id="repeat" class="glyphicon glyphicon-retweet repeat_icon_on" aria-hidden="true"></span></button></a>
+    <a href="javascript:void(0);" onclick="changeRepeatMode();"><button type="button" id="repeat_btn" class="btn btn-default" aria-label="Left Align" title="Repeat all"><span id="repeat" class="glyphicon glyphicon-retweet repeat_icon_on" aria-hidden="true"></span></button></a>
 
-      <a href="javascript:void(0);" onclick="changeShuffleMode();"><button type="button" id="shuffle_btn" class="btn btn-default" aria-label="Left Align" title="Shuffle off"><span id="shuffle" class="glyphicon glyphicon-random shuffle_icon_off" aria-hidden="true"></span></button></a>
+    <a href="javascript:void(0);" onclick="changeShuffleMode();"><button type="button" id="shuffle_btn" class="btn btn-default" aria-label="Left Align" title="Shuffle off"><span id="shuffle" class="glyphicon glyphicon-random shuffle_icon_off" aria-hidden="true"></span></button></a>
 
 
-      <div class="icon_playlist"><a href="javascript:void(0);" onclick="moveTo('playlist_area', 'slow');">Playlist</a></div>
+    <div class="icon_playlist"><a href="javascript:void(0);" onclick="moveTo('playlist_area', 'slow');"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Playlist</a></div>
 
-    </div>
+  </div>
 
 <div id="footer">
   <span class="produced">Produced by <a href="http://twitter.com/ohnokenichi">Ohno Kenichi</a> ,</span>
@@ -103,6 +104,7 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="//connect.soundcloud.com/sdk-2.0.0.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/mousetrap/1.4.6/mousetrap.min.js"></script>
 <script type="text/javascript" src="./js/soundcloud-widget-api.js"></script>
 <script type="text/javascript" src="./js/apl.js"></script>
 
