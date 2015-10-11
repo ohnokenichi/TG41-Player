@@ -204,8 +204,8 @@ function deleteTrack(playlistId) {
   shuffledPlaylistIds = shuffle(playlistIds);
   if(deleteNum < nowPlaying) {
     nowPlaying--;
-    if(deleteNum == nowPlaying){
-      nextTrack('force');
+    if(deleteNum == nowPlaying && playlistIds.length > 0){  //delete playing track and playlist is not empty
+      nextTrack();
     }
   }
 
@@ -236,31 +236,31 @@ function clearPlaylist() {
 }
 
 widget.bind(SC.Widget.Events.PLAY, function() {
-  if(playbackState == 'pause') {
-    $('#playbackButton').attr('class', 'glyphicon glyphicon-pause');
-    playbackState = 'play';
-  }
+  $('#playbackButton').attr('class', 'glyphicon glyphicon-pause');
+  playbackState = 'play';
 });
 
 widget.bind(SC.Widget.Events.PAUSE, function() {
-  if(playbackState == 'play') {
-    $('#playbackButton').attr('class', 'glyphicon glyphicon-play');
-    playbackState = 'pause';
-  }
+  $('#playbackButton').attr('class', 'glyphicon glyphicon-play');
+  playbackState = 'pause';
 });
 
 var run = true;
 widget.bind(SC.Widget.Events.FINISH, function() {
   if(run){
-    $('#playbackButton').attr('class', 'glyphicon glyphicon-play');
-    playbackState = 'pause';
-    if(playlistIds.length > 0) {
-      if(repeatMode == 'song') {
-        playTrack(nowPlaying);
-      }
-      else {
-        nextTrack('auto');
-      }
+    if(playlistIds.length > 0) {  //no track
+      $('#playbackButton').attr('class', 'glyphicon glyphicon-play');
+      playbackState = 'pause';
+    }      
+    else if(repeatMode == 'song') {
+      playTrack(nowPlaying);
+    }
+    else if(repeatMode == 'none' && playlistIds.length == nowPlaying) {  //repeat none and last track 
+      $('#playbackButton').attr('class', 'glyphicon glyphicon-play');
+      playbackState = 'pause';
+    }
+    else {
+      nextTrack();
     }
     // for iOS9
     run = false;
@@ -292,20 +292,15 @@ function changePlaybackState() {
   return false;
 }
 
-function nextTrack(param) {
+function nextTrack() {
   if(playlistIds.length > 0) {
-    if(nowPlaying < playlistIds.length) {
-      nowPlaying++;
-      playTrack(nowPlaying);
-    }
-    else if (repeatMode == 'all' || param == 'force') {
+    if(playlistIds.length == nowPlaying) {  //last track
       nowPlaying = 1;
-      playTrack(nowPlaying);
     }
     else {
-      $('#playbackButton').attr('class', 'glyphicon glyphicon-play');
-      playbackState = 'pause';
+      nowPlaying++;
     }
+    playTrack(nowPlaying);  
   }
   return false;
 }
@@ -384,13 +379,13 @@ function playTrack(nowPlaying) {
   var targetAddedResultId = addedResultIds[targetPlaylistId];
   var targetResultTrackId = resultTrackIds[targetAddedResultId];
 
-  widget.load('https%3A//api.soundcloud.com/tracks/'+targetResultTrackId, {auto_play:true});
+  var autoPlay = true;
+  if(playbackState == 'pause') {
+    autoPlay = false;
+  }
+  widget.load('https%3A//api.soundcloud.com/tracks/'+targetResultTrackId, {auto_play: autoPlay});
 
   $('#cover').hide();
-
-  $('#playbackButton').attr('class', 'glyphicon glyphicon-pause');
-  playbackState = 'play';
-
   $('.added_track').attr('class', 'added_track'); //background reset
   $('#'+targetPlaylistId).attr('class', 'added_track playing');
 
@@ -424,6 +419,8 @@ function setVolume(num) {
 function addAndPlay(id) {
   addTrack(id);
   nowPlaying = playlistIds.length;
+  $('#playbackButton').attr('class', 'glyphicon glyphicon-pause');
+  playbackState = 'play';
   playTrack(nowPlaying);
   return false;
 }
@@ -435,6 +432,8 @@ function jumpTrack(id) {
   else {
     nowPlaying = shuffledPlaylistIds.indexOf(id)+1;
   }
+  $('#playbackButton').attr('class', 'glyphicon glyphicon-pause');
+  playbackState = 'play';
   playTrack(nowPlaying);
   return false;
 }
@@ -468,9 +467,17 @@ function seekSound(direction) {
     if (direction == 'forward'){
       jump = position + 5000;
     }
-    else if (direction == 'back'){
+    else {
       jump = position - 5000;
     }
+    widget.seekTo(jump);
+  });
+}
+
+function seekPosition(num) {
+  var jump;
+  widget.getDuration(function(duration){
+    jump = (duration / 10) * num;
     widget.seekTo(jump);
   });
 }
@@ -487,30 +494,68 @@ function changeMute() {
 
 //shortcut key
 
+// search
+Mousetrap.bind('s', function() {
+  $('#keyword').focus();
+  return false;
+});
+
 // change playback mode
 Mousetrap.bind('space', function() {
   changePlaybackState();
   return false;
 });
 
-// seek sound forward
+// seek forward
 Mousetrap.bind('right', function() {
   seekSound('forward');
 });
 
-// seek sound back
+// seek backforward
 Mousetrap.bind('left', function() {
-  seekSound('back');
+  seekSound('backforward');
+});
+
+// seek position
+Mousetrap.bind('0', function() {
+  seekPosition(0);
+});
+Mousetrap.bind('1', function() {
+  seekPosition(1);
+});
+Mousetrap.bind('2', function() {
+  seekPosition(2);
+});
+Mousetrap.bind('3', function() {
+  seekPosition(3);
+});
+Mousetrap.bind('4', function() {
+  seekPosition(4);
+});
+Mousetrap.bind('5', function() {
+  seekPosition(5);
+});
+Mousetrap.bind('6', function() {
+  seekPosition(6);
+});
+Mousetrap.bind('7', function() {
+  seekPosition(7);
+});
+Mousetrap.bind('8', function() {
+  seekPosition(8);
+});
+Mousetrap.bind('9', function() {
+  seekPosition(9);
 });
 
 // move next track
-Mousetrap.bind('mod+right', function() {
-  nextTrack('force');
+Mousetrap.bind('shift+right', function() {
+  nextTrack();
   return false;
 });
 
 // move previous track
-Mousetrap.bind('mod+left', function() {
+Mousetrap.bind('shift+left', function() {
   prevTrack();
   return false;
 });
@@ -521,7 +566,7 @@ Mousetrap.bind('r', function() {
 });
 
 // change shuffle mode
-Mousetrap.bind('s', function() {
+Mousetrap.bind('shift+s', function() {
   changeShuffleMode();
 });
 
@@ -534,7 +579,7 @@ Mousetrap.bind(['del', 'backspace'], function() {
 });
 
 // volume up
-Mousetrap.bind('mod+up', function() {
+Mousetrap.bind('shift+up', function() {
   if(volume < 1){
     volume = ((volume * 10) +1) / 10;
     setVolume(volume);
@@ -543,7 +588,7 @@ Mousetrap.bind('mod+up', function() {
 });
 
 // volume down
-Mousetrap.bind('mod+down', function() {
+Mousetrap.bind('shift+down', function() {
   if(volume > 0){
     volume = ((volume * 10) -1) / 10;
     setVolume(volume);
@@ -557,12 +602,12 @@ Mousetrap.bind('m', function() {
 });
 
 // move to playlist
-Mousetrap.bind('p', function() {
+Mousetrap.bind('t', function() {
   moveTo('playlist_area', 'slow');
 });
 
 // move to playing track
-Mousetrap.bind('t', function() {
+Mousetrap.bind('p', function() {
   var target = ($('.playing').offset().top) - 273;
   $('html, body').animate({ scrollTop: target }, 'slow');
 });
