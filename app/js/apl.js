@@ -248,7 +248,7 @@ widget.bind(SC.Widget.Events.PAUSE, function() {
 var run = true;
 widget.bind(SC.Widget.Events.FINISH, function() {
   if(run){
-    if(playlistIds.length > 0) {  //no track
+    if(playlistIds.length == 0) {  //no track
       $('#playbackButton').attr('class', 'glyphicon glyphicon-play');
       playbackState = 'pause';
     }      
@@ -260,6 +260,7 @@ widget.bind(SC.Widget.Events.FINISH, function() {
       playbackState = 'pause';
     }
     else {
+      playbackState = 'play';
       nextTrack();
     }
     // for iOS9
@@ -274,6 +275,9 @@ widget.bind(SC.Widget.Events.PLAY, function() {
 
 function changePlaybackState() {
   if(playbackState == 'pause') {
+    $('#playbackButton').attr('class', 'glyphicon glyphicon-pause');
+    playbackState = 'play';
+
     if(playlistIds.length > 0 && nowPlaying == 0) {
       nowPlaying = 1;
       playTrack(nowPlaying);
@@ -281,8 +285,6 @@ function changePlaybackState() {
     else {
       widget.play();
     }
-    $('#playbackButton').attr('class', 'glyphicon glyphicon-pause');
-    playbackState = 'play';
   }
   else {
     widget.pause();
