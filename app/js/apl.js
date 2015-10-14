@@ -260,6 +260,7 @@ widget.bind(SC.Widget.Events.FINISH, function() {
       playbackState = 'pause';
     }
     else {
+      $('#playbackButton').attr('class', 'glyphicon glyphicon-pause');
       playbackState = 'play';
       nextTrack();
     }
