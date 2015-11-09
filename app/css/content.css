@@ -145,6 +145,11 @@ form {
   left: -1em;
 }
 
+.about {
+  position: relative;
+  margin: 15px 15px 0 32px;
+}
+
 .playlist_image {
   width: 47px;
   float: left;
