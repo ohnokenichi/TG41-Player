@@ -253,9 +253,10 @@ widget.bind(SC.Widget.Events.FINISH, function() {
       playbackState = 'pause';
     }      
     else if(repeatMode == 'song') {
+      playbackState = 'play';
       playTrack(nowPlaying);
     }
-    else if(repeatMode == 'none' && playlistIds.length == nowPlaying) {  //repeat none and last track 
+    else if(repeatMode == 'off' && playlistIds.length == nowPlaying) {  //repeat none and last track
       $('#playbackButton').attr('class', 'glyphicon glyphicon-play');
       playbackState = 'pause';
     }
