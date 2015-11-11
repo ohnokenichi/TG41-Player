@@ -15,7 +15,9 @@ body {
 }
 
 h1 {
-  background-color: #d0cfb7;
+  background: -moz-linear-gradient(top,#d6d3cc 0%, #c0bdb7);
+  background: -webkit-gradient(linear, left top, left bottom, from(#d6d3cc), to(#c0bdb7));
+  color:#ffffff;
   font-size: 18px;
   padding: 5px 0 5px 15px;
   margin: 0;
@@ -28,7 +30,6 @@ h2 {
 }
 
 hr {
-  margin: 20px 0;
   border-top: 1px solid #e5e5e5;
   border-bottom: 0;
 }
@@ -52,12 +53,14 @@ form {
 
 #footer {
   position: absolute;
-  bottom: 0;
+  bottom: 0px;
   font-size: 12px;
   width: 100%;
-  height: 15px;
-  background-color: #333333;
-  color: #d0cfb7;
+  height: 16px;
+  background: -moz-linear-gradient(top,#d6d3cc 0%, #c0bdb7);
+  background: -webkit-gradient(linear, left top, left bottom, from(#d6d3cc), to(#c0bdb7));
+  color: #333333;
+  border-top: 1px solid #c0bdb7;
   text-align: right;
 }
 
@@ -65,7 +68,7 @@ form {
   position: fixed;
   right: 15px;
   top: 6px;
-  color: #333333;
+  color: #337ab7;
 }
 
 .volume_controller span {
@@ -74,15 +77,15 @@ form {
 
 .volume_controller a {
   text-decoration: none;
-  color: #ff5500;
+  color: #337ab7;
 }
 
 .volume_in {
-  color: #ff5500 !important;
+  color: #337ab7 !important;
 }
 
 .volume_out {
-  color: #e5e5e5 !important;
+  color: #ffffff !important;
 }
 
 #cover {
@@ -121,6 +124,29 @@ form {
   margin-top: -260px;
   padding-top: 260px;
   margin-bottom: 60px;
+}
+
+@media screen and ( min-width:960px )
+{
+  #result_area {
+    margin-top: 20px;
+    float: left;
+    width:48%;
+  }
+
+  #playlist_area {
+    margin-top: -247px;
+    padding-top: 260px;
+    margin-bottom: 60px;
+    float: right; 
+    width:48%;
+  }
+
+  hr.endTrack {
+    border-top: 1px solid #ffffff;
+    border-bottom: 0;
+  }
+  
 }
 
 #controller {
@@ -206,7 +232,7 @@ form {
 }
 
 .add_btn_selected {
-  border: 1px solid #cccccc;
+  border: 1px solid #337ab7;
 }
 
 .add_icon {
@@ -214,7 +240,7 @@ form {
 }
 
 .add_icon_selected {
-  color: #337AB7;
+  color: #cccccc;
 }
 
 .clear_float {
@@ -254,7 +280,7 @@ form {
 }
 
 .playing {
-  background-color: #d0cfb7;
+  background-color: #d6d3cc;
 }
 
 .added_track a {
@@ -269,7 +295,7 @@ form {
 }
 
 .glyphicon-remove {
-  color: #d0cfb7;
+  color: #d6d3cc;
 }
 
 .clear_tracks {
