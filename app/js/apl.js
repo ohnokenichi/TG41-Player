@@ -133,7 +133,7 @@ function loadTrack(result) {
     resultTrackIds.push(trackId);
     resultId++;
   }
-  $('#result').append('<hr />');
+  $('#result').append('<hr class="endTrack" />');
 }
 
 function loadArtwork(url) {
@@ -238,6 +238,7 @@ function clearPlaylist() {
 widget.bind(SC.Widget.Events.PLAY, function() {
   $('#playbackButton').attr('class', 'glyphicon glyphicon-pause');
   playbackState = 'play';
+  setVolume(volume);
 });
 
 widget.bind(SC.Widget.Events.PAUSE, function() {
@@ -269,10 +270,6 @@ widget.bind(SC.Widget.Events.FINISH, function() {
     run = false;
     window.setTimeout(function flag(){run = true;}, 1000);
   }
-});
-
-widget.bind(SC.Widget.Events.PLAY, function() {
-  setVolume(volume);
 });
 
 function changePlaybackState() {
