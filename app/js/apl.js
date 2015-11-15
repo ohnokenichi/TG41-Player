@@ -609,6 +609,6 @@ Mousetrap.bind('t', function() {
 
 // move to playing track
 Mousetrap.bind('p', function() {
-  var target = ($('.playing').offset().top) - 273;
+  var target = ($('.playing').offset().top) - 263;
   $('html, body').animate({ scrollTop: target }, 'slow');
 });
